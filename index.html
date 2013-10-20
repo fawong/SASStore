@@ -81,10 +81,88 @@ store.countOccurrencesOf("0"); -> 123
 store.reset();
 </code></pre>
 
+<script type="text/javascript">
+  var store = new SASStore({id: "testStore",length: 10,itemSize: 2});
+  var showTime = 500;
+  var hideTime = 5000;
+  var timeout;
+  function update() {
+    $("#currentStore").text("["+store.getAll().join()+"]");
+  }
+
+  function set() {
+    var loc = Number($("#input1loc").val());
+    var val = $("#input1val").val();
+    try {
+      store.setItem(loc, val);
+      $("#error").slideUp(showTime);
+      $("#error").text("");
+    } catch (e) {
+      $("#error").text(e);
+      $("#error").slideDown(showTime);
+      if (timeout) {
+        clearTimeout(timeout);
+      }
+      timeout = setTimeout(function() {
+        $("#error").slideUp(showTime);
+      }, hideTime);
+    }
+    
+    update();
+  }
+
+  function get() {
+    var loc = Number($("#input2loc").val());
+    try {
+      var val = store.getItem(loc);
+      $("#output2").text(val);
+      $("#error").slideUp(showTime);
+      $("#error").text("");
+    } catch (e) {
+      $("#error").text(e);
+      $("#error").slideDown(showTime);
+      if (timeout) {
+        clearTimeout(timeout);
+      }
+      timeout = setTimeout(function() {
+        $("#error").slideUp(showTime);
+      }, hideTime);
+    }
+  }
+
+  function reset() {
+    store.reset();
+    update();
+  }
+
+  function randomize() {
+    store.randomize();
+    update();
+  }
+</script>
+
+<h3><a name="demo-sasstore" class="anchor" href="#demo-sasstore"><span class="octicon octicon-link"></span></a>Demo</h3>
+
+<p>Location:<input id="input1loc" type="number"> Value:<input id="input1val" type="text"><button onclick="set()">set</button></p>
+
+<p>Location:<input id="input2loc" type="number"><button onclick="get()">get</button> &#8594; <span id="output2"></span></p>
+
+<p><button onclick="reset()">reset</button></p>
+
+<p><button onclick="randomize()">randomize</button></p>
+
+<p>Store Data: <span id="currentStore"></span></p>
+
+<p style="display:none;width:100%;color:white;text-align:center;background-color:red;border-radius:3px;" id="error"></p>
+
+<script type="text/javascript">
+  update();
+</script>
+
 <h3>
 <a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Questions/Comments/Suggestions</h3>
 
-<p>If you have any input for this project or for me, please head over to the <a href="https://github.com/DungFu/SASStore">github</a> page for this project or email me at <a href="mailto:dungfu3@gmail.com">dungfu3@gmail.com</a>.</p>
+<p>If you have any input for this project or for me, please head over to the <a href="https://github.com/DungFu/SASStore">github</a> page for this project or email me at <a href="mailto:dungfu3@gmail.com">dungfu3@gmail.com</a>. Also, credit to <a href="https://github.com/whoughton/yEnc" class="user-mention">whoughton</a> for his yEnc javascript project that I used some code from.</p>
         </article>
       </div>
     </div>
